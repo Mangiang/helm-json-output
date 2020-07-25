@@ -62,25 +62,6 @@ function ParseResources(resourcesStr) {
 }
 
 /**
- * Extracts the resources section from the helm raw output.
- * The output of this method is one text bulk of ALL the resources
- */
-function ExtractResources(helmRawOutput) {
-  // Sanity
-  if ((!helmRawOutput) || (helmRawOutput.trim() === '')) {
-    return '';
-  }
-
-  const matches = helmRawOutput.match(/(.*RESOURCES:\s+)((.|\n)*)(\s*NOTES:.*)/);
-
-  if (matches.length < 3) {
-    return '';
-  }
-
-  return matches[2];
-}
-
-/**
  * Extracts release name from the raw output of helm
  */
 function ExtractReleaseName(helmRawOutput) {
@@ -117,9 +98,7 @@ function ExtractReleaseName(helmRawOutput) {
  */
 function parseResponse(data) {
   const releaseName = ExtractReleaseName(data);
-  const unFormattedResources = ParseResources(ExtractResources(data));
-  const structuredResources = ConvertToJSON(unFormattedResources);
-  return { releaseName, resources: structuredResources };
+  return { releaseName };
 }
 
 function main() {
